@@ -23,7 +23,7 @@ class PhotoGalleryActivity : AppCompatActivity() {
                 .commitNow()
         }
 
-        /* ViewModelでURIが洗濯されたイベントを受信し、Activityの結果としてセットする */
+        /* ViewModelでURIが選択されたイベントを受信し、Activityの結果としてセットする */
         viewModel.onSelect.observe(this, EventObserver {
             setResult(RESULT_OK, Intent().putExtra(INTENT_URI, it.toString()))
             finish()
