@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_photo_gallery.*
-import kotlinx.android.synthetic.main.view_photo_gallery_image.view.*
 import net.engawapg.app.photogallery.R
 import net.engawapg.app.photogallery.databinding.FragmentPhotoGalleryBinding
 import net.engawapg.app.photogallery.databinding.ViewPhotoGalleryImageBinding
@@ -28,6 +26,8 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 class PhotoGalleryFragment : Fragment() {
 
     private val viewModel: PhotoGalleryViewModel by sharedViewModel()
+    private var _binding: FragmentPhotoGalleryBinding? = null
+    private val binding get() = _binding!!
 
     /* Permissionの結果を受け取る */
     private val permissionRequest = registerForActivityResult(
@@ -81,7 +81,7 @@ class PhotoGalleryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<FragmentPhotoGalleryBinding>(
+        _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_photo_gallery, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -97,7 +97,7 @@ class PhotoGalleryFragment : Fragment() {
         viewModel.photoList.observe(viewLifecycleOwner, Observer {
             imageAdapter.submitList(it)
         })
-        recyclerView.apply {
+        binding.recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(this@PhotoGalleryFragment.context, SPAN_COUNT)
             adapter = imageAdapter
@@ -140,7 +140,7 @@ class PhotoGalleryFragment : Fragment() {
                 Picasso.get().load(it.uri)
                     .fit()
                     .centerCrop()
-                    .into(holder.itemView.imageView)
+                    .into(holder.binding.imageView)
             }
         }
     }
