@@ -52,12 +52,12 @@ class PhotoGalleryViewModel(app: Application) : AndroidViewModel(app) {
             /* 読み込む列の指定 */
             val projection = arrayOf(
                 MediaStore.Images.Media._ID, /* ID : URI取得に必要 */
-                MediaStore.Images.Media.DATE_TAKEN  /* 撮影日時 */
+                MediaStore.Images.Media.DATE_ADDED  /* データベースへの追加日時 */
             )
             val selection = null /* 行の絞り込みの指定。nullならすべての行を読み込む。*/
             val selectionArgs = null /* selectionの?を置き換える引数 */
-            /* 並び順の指定 : 撮影日時の新しい順 */
-            val sortOrder = "${MediaStore.Images.Media.DATE_TAKEN} DESC"
+            /* 並び順の指定 : 日時の新しい順 */
+            val sortOrder = "${MediaStore.Images.Media.DATE_ADDED} DESC"
 
             getApplication<Application>().contentResolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
